@@ -72,7 +72,7 @@ def add_branch(fig, start, end, flow, limit):
         )
     
 #Create different tabs for each example
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["Economic Dispatch", "Interconnector Constraint", "Optimal Powerflow", "Net-Zero Planning", "Energy Storage","Variable Renewable Energy"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["Economic Dispatch", "Interconnector Constraint", "Optimal Powerflow","Variable Renewable Energy", "Net-Zero Planning", "Energy Storage"])
 
 #Tab 1, which shows economic dispatch of two generators
 with tab1:
@@ -377,8 +377,140 @@ with tab3:
     else:
         st.text("Problem Infeasible - try increasing line limit, decreasing demand, or changing network parameters")
 
-    #Tab 4 shows an system planning example
-    with tab4:
+with tab4:
+    Example_data2 = pd.read_csv("Storage example data.csv")
+
+    Wind_Cap_Mult2 = st.slider("VRE Capacity (MW)",0,9,5)
+    
+    Example_data2["Wind"] = Example_data2["Wind"] * Wind_Cap_Mult2
+    
+    fig6 = go.Figure()
+
+    fig6.add_trace(
+        go.Scatter(
+            x=Example_data2["Hour"],
+            y=Example_data2["Demand"],
+            name="Demand (MW)",
+        )
+    )
+
+    fig6.add_trace(
+        go.Scatter(
+            x=Example_data2["Hour"],
+            y=Example_data2["Wind"],
+            name="VRE Capacity (MW)"
+        )
+    )
+
+    st.plotly_chart(
+        fig6,
+        use_container_width=True
+        )
+
+        #Variables for optimization problem
+    Bio_Gen = cp.Variable(168,nonneg=True)
+    Wind_Gen = cp.Variable(168,nonneg=True)
+    Gas_Gen = cp.Variable(168,nonneg=True)
+    Wind_Cap = cp.Parameter(168, value=Example_data2["Wind"].values)
+    Demand = cp.Parameter(168, value=Example_data2["Demand"].values)
+
+    #Constraints
+    VRE_Constraints = [
+        Wind_Gen + Gas_Gen + Bio_Gen == Demand,
+        Wind_Gen<=Wind_Cap,
+
+    ]
+
+    cost6 = cp.sum(
+            100 + 30*Gas_Gen + 0.1*cp.square(Gas_Gen) + 200 + 50*Bio_Gen + 0.1*cp.square(Bio_Gen)
+    )
+
+    prob6 = cp.Problem(cp.Minimize(cost6), VRE_Constraints)
+    prob6.solve(solver=cp.CLARABEL)
+
+    Dispatch_VRE = pd.DataFrame(
+        {
+            "VRE": Wind_Gen.value,
+            "Gas": Gas_Gen.value,
+            "Bio": Bio_Gen.value,
+            "Curtailment": Wind_Cap.value-Wind_Gen.value
+        }
+    )
+
+        
+    figDispatch_VRE = go.Figure()
+
+    figDispatch_VRE.add_trace(
+        go.Bar(
+            x=np.arange(168),
+            y=Wind_Gen.value,
+            name="VRE",
+            marker_color="darkgreen"
+        )
+    )
+
+    figDispatch_VRE.add_trace(
+        go.Bar(
+            x=np.arange(168),
+            y=Gas_Gen.value,
+            name="Gas",
+            marker_color="indianred"
+        )
+    )
+
+    figDispatch_VRE.add_trace(
+        go.Bar(
+            x=np.arange(168),
+            y=Bio_Gen.value,
+            name="Bio",
+            marker_color="deepskyblue"
+        )
+    )
+
+    figDispatch_VRE.add_trace(
+        go.Scatter(
+            x=np.arange(168),
+            y=Demand.value,
+            mode="lines",
+            name="Demand",
+            line=dict(color="black", width=3)
+        )
+    )
+
+    figDispatch_VRE.update_layout(
+        title="System Dispatch",
+        barmode="relative",
+        xaxis_title="Hour",
+        yaxis_title="Power (MW)"
+    )
+
+    st.plotly_chart(
+        figDispatch_VRE,
+        use_container_width=True
+    )
+
+    figCurtailment = go.Figure()
+
+    figCurtailment.add_trace(
+            go.Scatter(
+                x=Example_data2["Hour"],
+                y=Dispatch_VRE["Curtailment"],
+                name="Curtailed VRE (MW)",
+            )
+        )
+
+    figCurtailment.update_layout(
+    title="Curtailed VRE",
+    xaxis_title="Hour",
+    yaxis_title="MW",
+    )
+
+    st.plotly_chart(
+    figCurtailment,
+    use_container_width=True
+    )
+    #Tab 5 shows an system planning example
+    with tab5:
 
         #Sliders to set the demand in terms of peak and overall demand
         Peak = st.slider("Peak Demand (MW)",500, 2000, 1000 )
@@ -585,7 +717,7 @@ with tab3:
             use_container_width=True
         )
 
-with tab5:
+with tab6:
 
     Example_data = pd.read_csv("Storage example data.csv")
 
@@ -825,135 +957,3 @@ with tab5:
         f"£{Storage_Saving:,.0f}"
     )
 
-with tab6:
-    Example_data2 = pd.read_csv("Storage example data.csv")
-
-    Wind_Cap_Mult2 = st.slider("VRE Capacity (MW)",0,9,5)
-    
-    Example_data2["Wind"] = Example_data2["Wind"] * Wind_Cap_Mult2
-    
-    fig6 = go.Figure()
-
-    fig6.add_trace(
-        go.Scatter(
-            x=Example_data2["Hour"],
-            y=Example_data2["Demand"],
-            name="Demand (MW)",
-        )
-    )
-
-    fig6.add_trace(
-        go.Scatter(
-            x=Example_data2["Hour"],
-            y=Example_data2["Wind"],
-            name="VRE Capacity (MW)"
-        )
-    )
-
-    st.plotly_chart(
-        fig6,
-        use_container_width=True
-        )
-
-        #Variables for optimization problem
-    Bio_Gen = cp.Variable(168,nonneg=True)
-    Wind_Gen = cp.Variable(168,nonneg=True)
-    Gas_Gen = cp.Variable(168,nonneg=True)
-    Wind_Cap = cp.Parameter(168, value=Example_data2["Wind"].values)
-    Demand = cp.Parameter(168, value=Example_data2["Demand"].values)
-
-    #Constraints
-    VRE_Constraints = [
-        Wind_Gen + Gas_Gen + Bio_Gen == Demand,
-        Wind_Gen<=Wind_Cap,
-
-    ]
-
-    cost6 = cp.sum(
-            100 + 30*Gas_Gen + 0.1*cp.square(Gas_Gen) + 200 + 50*Bio_Gen + 0.1*cp.square(Bio_Gen)
-    )
-
-    prob6 = cp.Problem(cp.Minimize(cost6), VRE_Constraints)
-    prob6.solve(solver=cp.CLARABEL)
-
-    Dispatch_VRE = pd.DataFrame(
-        {
-            "VRE": Wind_Gen.value,
-            "Gas": Gas_Gen.value,
-            "Bio": Bio_Gen.value,
-            "Curtailment": Wind_Cap.value-Wind_Gen.value
-        }
-    )
-
-        
-    figDispatch_VRE = go.Figure()
-
-    figDispatch_VRE.add_trace(
-        go.Bar(
-            x=np.arange(168),
-            y=Wind_Gen.value,
-            name="VRE",
-            marker_color="darkgreen"
-        )
-    )
-
-    figDispatch_VRE.add_trace(
-        go.Bar(
-            x=np.arange(168),
-            y=Gas_Gen.value,
-            name="Gas",
-            marker_color="indianred"
-        )
-    )
-
-    figDispatch_VRE.add_trace(
-        go.Bar(
-            x=np.arange(168),
-            y=Bio_Gen.value,
-            name="Bio",
-            marker_color="deepskyblue"
-        )
-    )
-
-    figDispatch_VRE.add_trace(
-        go.Scatter(
-            x=np.arange(168),
-            y=Demand.value,
-            mode="lines",
-            name="Demand",
-            line=dict(color="black", width=3)
-        )
-    )
-
-    figDispatch_VRE.update_layout(
-        title="System Dispatch",
-        barmode="relative",
-        xaxis_title="Hour",
-        yaxis_title="Power (MW)"
-    )
-
-    st.plotly_chart(
-        figDispatch_VRE,
-        use_container_width=True
-    )
-
-    figCurtailment = go.Figure()
-
-    figCurtailment.add_trace(
-            go.Scatter(
-                x=Example_data2["Hour"],
-                y=Dispatch_VRE["Curtailment"],
-                name="Curtailed VRE (MW)",
-            )
-        )
-
-    figCurtailment.update_layout(
-    title="Curtailed VRE",
-    xaxis_title="Hour",
-    yaxis_title="MW",
-    )
-
-    st.plotly_chart(
-    figCurtailment,
-    use_container_width=True
-    )
