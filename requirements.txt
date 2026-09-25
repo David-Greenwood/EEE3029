@@ -1,1 +1,5 @@
-streamlit, cvxpy, numpy, plotly.graph_objects, pandas
+streamlit==1.61.0
+cvxpy==1.7.5
+numpy==2.2.6
+plotly==6.9.0
+pandas==2.3.3
