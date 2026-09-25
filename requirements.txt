@@ -1,0 +1,1 @@
+streamlit, cvxpy, numpy, plotly.graph_objects, pandas
