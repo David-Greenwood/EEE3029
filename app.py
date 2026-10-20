@@ -290,7 +290,7 @@ with tab3:
     opfconstraints = [Pgb1 + Pgb2 == demandb3,
         P12 == Pgb1*(X13/(X12+X13+X23)) - Pgb2*(X23/(X12+X13+X23)),
         P13 == Pgb1*((X12+X23)/(X12+X13+X23)) + Pgb2*((X23)/(X12+X13+X23)),
-        P23 == Pgb1*((X12+X23)/(X12+X13+X23)) + Pgb2*((X13+X12)/(X12+X13+X23)),
+        P23 == Pgb1*((X13)/(X12+X13+X23)) + Pgb2*((X13+X12)/(X12+X13+X23)),
         P12 <= P12Lim,
         P12 >= -P12Lim,
         P13 <= P13Lim,
