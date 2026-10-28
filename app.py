@@ -407,6 +407,8 @@ with tab4:
         use_container_width=True
         )
 
+    MinTherm = st.slider("Minimum Thermal Gemneration (MW)",0,200,0)
+
         #Variables for optimization problem
     Bio_Gen = cp.Variable(168,nonneg=True)
     Wind_Gen = cp.Variable(168,nonneg=True)
@@ -418,6 +420,7 @@ with tab4:
     VRE_Constraints = [
         Wind_Gen + Gas_Gen + Bio_Gen == Demand,
         Wind_Gen<=Wind_Cap,
+        Bio_Gen + Gas_Gen >= MinTherm,
 
     ]
 
