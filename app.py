@@ -407,7 +407,7 @@ with tab4:
         use_container_width=True
         )
 
-    MinTherm = st.slider("Minimum Thermal Gemneration (MW)",0,200,0)
+    MinTherm = st.slider("Minimum Thermal Gemneration (MW)",0,2000,0)
 
         #Variables for optimization problem
     Bio_Gen = cp.Variable(168,nonneg=True)
