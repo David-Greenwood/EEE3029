@@ -381,7 +381,8 @@ with tab4:
     Example_data2 = pd.read_csv("Storage example data.csv")
 
     Wind_Cap_Mult2 = st.slider("VRE Capacity (MW)",0,9,5)
-    
+    MinTherm = st.slider("Minimum Thermal Gemneration (MW)",0,2000,0)
+
     Example_data2["Wind"] = Example_data2["Wind"] * Wind_Cap_Mult2
     
     fig6 = go.Figure()
@@ -407,8 +408,6 @@ with tab4:
         use_container_width=True
         )
 
-    MinTherm = st.slider("Minimum Thermal Gemneration (MW)",0,2000,0)
-
         #Variables for optimization problem
     Bio_Gen = cp.Variable(168,nonneg=True)
     Wind_Gen = cp.Variable(168,nonneg=True)
@@ -431,6 +430,9 @@ with tab4:
     prob6 = cp.Problem(cp.Minimize(cost6), VRE_Constraints)
     prob6.solve(solver=cp.CLARABEL)
 
+        st.metric("Cost", f"£{prob6.value:.0f}/h")
+
+    
     Dispatch_VRE = pd.DataFrame(
         {
             "VRE": Wind_Gen.value,
