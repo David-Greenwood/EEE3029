@@ -430,7 +430,7 @@ with tab4:
     prob6 = cp.Problem(cp.Minimize(cost6), VRE_Constraints)
     prob6.solve(solver=cp.CLARABEL)
 
-    st.metric("Cost", f"M£{prob6.value/1000000:.0f}")
+    st.metric("Cost", f"£{prob6.value/1000000:.2f} Million")
 
     
     Dispatch_VRE = pd.DataFrame(
