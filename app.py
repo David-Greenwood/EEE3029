@@ -380,8 +380,8 @@ with tab3:
 with tab4:
     Example_data2 = pd.read_csv("Storage example data.csv")
 
-    Wind_Cap_Mult2 = st.slider("VRE Capacity (MW)",0,9,5)
-    MinTherm = st.slider("Minimum Thermal Gemneration (MW)",0,2000,0)
+    Wind_Cap_Mult2 = st.slider("VRE Capacity (GW)",0,9,5)
+    MinTherm = st.slider("Minimum Thermal Generation (MW)",0,2000,0)
 
     Example_data2["Wind"] = Example_data2["Wind"] * Wind_Cap_Mult2
     
