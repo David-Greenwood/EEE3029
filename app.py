@@ -284,7 +284,7 @@ with tab2:
             &
             {-ICcap:.0f} \ \text{{MW}}\leq P_{{1-2}\geq {ICcap:.0f} \ \text{{MW}}
             \end{{aligned}}
-                """)
+            """)
 
 #Tab 3 is a simple optimal power flow example on a 3 bus network
 with tab3: 
