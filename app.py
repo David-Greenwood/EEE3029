@@ -177,7 +177,7 @@ with tab1:
    
     st.plotly_chart(fig, use_container_width=True)
     with st.expander("Show Optimization Formulation"):
-        if NegGen
+        if NegGen:
             st.latex(
                 fr"""
                 \begin{{aligned}}
