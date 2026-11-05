@@ -177,12 +177,23 @@ with tab1:
    
     st.plotly_chart(fig, use_container_width=True)
     with st.expander("Show Optimization Formulation"):
-        st.latex(
+        if NegGen
+            st.latex(
+                fr"""
+                \begin{{aligned}}
+                \min \quad & C_{{PG1}} + C_{{PG2}} + C_{{PG3}} \\
+                \text{{Subject to}} \quad &
+                P_{{G1}} + P_{{G2}} + P_{{G3}} = {demand:.0f}\ \text{{MW}}
+                \end{{aligned}}
+                """)
+        else
+                st.latex(
             fr"""
             \begin{{aligned}}
             \min \quad & C_{{PG1}} + C_{{PG2}} + C_{{PG3}} \\
             \text{{Subject to}} \quad &
             P_{{G1}} + P_{{G2}} + P_{{G3}} = {demand:.0f}\ \text{{MW}}
+            P_{{G1}} \geq 0, P_{{G2}} \geq 0, P_{{G3}} \geq 0
             \end{{aligned}}
             """)
     
