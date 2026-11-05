@@ -176,6 +176,9 @@ with tab1:
     )
    
     st.plotly_chart(fig, use_container_width=True)
+    with st.expander("Show Optimization Formulation"):
+    st.latex(r"Minimize C_{PG1} + C_{PG2} + C_{PG3}
+        \Subject to: P_{G1} + P_{G2} + P_{G3} = ")
     
 #Tab 2 shows two systems connected by a transmisison line.
 with tab2:
