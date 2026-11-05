@@ -271,6 +271,21 @@ with tab2:
         )
     st.plotly_chart(fig_IC, use_container_width=True)    
 
+    with st.expander("Show Optimization Formulation"):
+        st.latex(
+        
+            fr"""
+            \begin{{aligned}}
+            \min \quad & C_{{PG1}} + C_{{PG2}} \\
+            \text{{subject to}} \quad &
+            P_{{G1}} - P_{{1-2}} = {demand1:.0f}\ \text{{MW}} \\
+            &
+            P_{{G2}} + P_{{1-2}} = {demand2:.0f}\ \text{{MW}} \\
+            &
+            {-ICcap:.0f} \ \text{{MW}}\leq P_{{1-2}\geq {ICcap:.0f} \ \text{{MW}}
+            \end{{aligned}}
+                """)
+
 #Tab 3 is a simple optimal power flow example on a 3 bus network
 with tab3: 
 
