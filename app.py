@@ -186,7 +186,7 @@ with tab1:
                 P_{{G1}} + P_{{G2}} + P_{{G3}} = {demand:.0f}\ \text{{MW}}
                 \end{{aligned}}
                 """)
-        else
+        else:
                 st.latex(
             fr"""
             \begin{{aligned}}
