@@ -446,22 +446,22 @@ with tab3:
             """
         )
 
-    st.markdown(
-    """
-    The branch flows are calculated using the superposition method
-    introduced in Lecture 1.
-    """
-    )
-
-    st.latex(
-    r"""
-    \begin{aligned}
-    P_{12} &= a_1P_{G1}+a_2P_{G2} \\
-    P_{13} &= b_1P_{G1}+b_2P_{G2} \\
-    P_{23} &= c_1P_{G1}+c_2P_{G2}
-    \end{aligned}
-    """
-    )
+        st.markdown(
+        """
+        The branch flows are calculated using the superposition method
+        introduced in Lecture 1.
+        """
+        )
+    
+        st.latex(
+        r"""
+        \begin{aligned}
+        P_{12} &= (X13/(X12+X13+X23))P_{G1}-(X23/(X12+X13+X23))P_{G2} \\
+        P_{13} &= ((X12+X23)/(X12+X13+X23))P_{G1}+((X23)/(X12+X13+X23))P_{G2} \\
+        P_{23} &= ((X13)/(X12+X13+X23))P_{G1}+((X13+X12)/(X12+X13+X23))P_{G2}
+        \end{aligned}
+        """
+        )
 
 with tab4:
     Example_data2 = pd.read_csv("Storage example data.csv")
