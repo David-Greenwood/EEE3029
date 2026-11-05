@@ -96,7 +96,9 @@ with tab1:
         c2 = st.slider("Generator 2 Fixed cost",100,500,300)
 
     #Checkbox and if statement to set generator minimum output to 0 (or not)
-    NegGen = st.checkbox("Allow Negative Generation?")
+    NegGen = st.checkbox(
+            "Allow Negative Generation?",
+            value=True)
 
     if NegGen:
         Pg1 = cp.Variable(nonneg=False)
