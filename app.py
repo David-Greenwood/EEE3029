@@ -447,20 +447,20 @@ with tab3:
         )
 
         st.markdown(
-        """
-        The branch flows are calculated using the superposition method
-        introduced in Lecture 1.
-        """
+            """
+            The branch flows are calculated using the superposition method
+            introduced in Lecture 1.
+            """
         )
     
         st.latex(
-        r"""
-        \begin{aligned}
-        P_{12} &= \frac{X13}{X12+X13+X23}P_{G1}-\frac{X23}{X12+X13+X23}P_{G2} \\
-        P_{13} &= \frac{X12+X23}{X12+X13+X23}P_{G1}+\frac{X23{X12+X13+X23}P_{G2} \\
-        P_{23} &= \frac{X13}{X12+X13+X23}P_{G1}+\frac{X13+X12}{X12+X13+X23}P_{G2}
-        \end{aligned}
-        """
+            r"""
+            \begin{aligned}
+            P_{12} &= \frac{X13}{X12+X13+X23}P_{G1}-\frac{X23}{X12+X13+X23}P_{G2} \\
+            P_{13} &= \frac{X12+X23}{X12+X13+X23}P_{G1}+\frac{X23{X12+X13+X23}P_{G2} \\
+            P_{23} &= \frac{X13}{X12+X13+X23}P_{G1}+\frac{X13+X12}{X12+X13+X23}P_{G2}
+            \end{aligned}
+            """
         )
 
 with tab4:
