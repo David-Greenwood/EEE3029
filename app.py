@@ -282,7 +282,7 @@ with tab2:
             &
             P_{{G2}} + P_{{1-2}} = {demand2:.0f}\ \text{{MW}} \\
             &
-            {-ICcap:.0f} \ \text{{MW}}\leq P_{{1-2}\geq {ICcap:.0f} \ \text{{MW}}
+            {-ICcap:.0f} \ \text{{MW}}\leq P_{{1-2}}\geq {ICcap:.0f} \ \text{{MW}}
             \end{{aligned}}
             """)
 
