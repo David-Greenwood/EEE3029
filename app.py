@@ -192,7 +192,7 @@ with tab1:
             \begin{{aligned}}
             \min \quad & C_{{PG1}} + C_{{PG2}} + C_{{PG3}} \\
             \text{{Subject to}} \quad &
-            P_{{G1}} + P_{{G2}} + P_{{G3}} = {demand:.0f}\ \text{{MW}}
+            P_{{G1}} + P_{{G2}} + P_{{G3}} = {demand:.0f}\ \text{{MW}} \\
             P_{{G1}} \geq 0, P_{{G2}} \geq 0, P_{{G3}} \geq 0
             \end{{aligned}}
             """)
