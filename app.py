@@ -177,13 +177,15 @@ with tab1:
    
     st.plotly_chart(fig, use_container_width=True)
     with st.expander("Show Optimization Formulation"):
-        st.latex(r"""
-            \text{Minimize} C_{PG1} + C_{PG2} + C_{PG3}
-            
-            \text{Subject to:}
-            
-            P_{G1} + P_{G2} + P_{G3} = {demand:.0f}\ \mathrm{{MW}}
-            """)
+        st.latex(
+            fr"""
+            \begin{{aligned}}
+            \min \quad & C_{{PG1}} + C_{{PG2}} + C_{{PG3}} \\
+            \text{{s.t.}} \quad &
+            P_{{G1}} + P_{{G2}} + P_{{G3}} = {P_D:.0f}
+            \end{{aligned}}
+            """
+        )
     
 #Tab 2 shows two systems connected by a transmisison line.
 with tab2:
