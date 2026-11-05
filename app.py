@@ -282,7 +282,7 @@ with tab2:
             &
             P_{{G2}} + P_{{1-2}} = {demand2:.0f}\ \text{{MW}} \\
             &
-            {-ICcap:.0f} \ \text{{MW}}\leq P_{{1-2}}\geq {ICcap:.0f} \ \text{{MW}}
+            {-ICcap:.0f} \ \text{{MW}}\geq P_{{1-2}} \geq {ICcap:.0f} \ \text{{MW}}
             \end{{aligned}}
             """)
 
@@ -414,6 +414,37 @@ with tab3:
       #Message for infeasible solution
     else:
         st.text("Problem Infeasible - try increasing line limit, decreasing demand, or changing network parameters")
+
+    with st.expander("Show Optimization Formulation"):
+    
+        st.latex(
+            fr"""
+            \begin{{aligned}}
+            \min \quad &
+            C_{{PG1}} + C_{{PG2}} \\
+            \text{{s.t.}} \quad &
+            P_{{G1}} + P_{{G2}} = {demandb3:.0f}\ \text{{MW}} \\
+            &
+            -{P12Lim:.0f}
+            \le
+            P_{{12}}
+            \le
+            {P12Lim:.0f} \\
+            &
+            -{P13Lim:.0f}
+            \le
+            P_{{13}}
+            \le
+            {P13Lim:.0f} \\
+            &
+            -{P23Lim:.0f}
+            \le
+            P_{{23}}
+            \le
+            {P23Lim:.0f}
+            \end{{aligned}}
+            """
+        )
 
 with tab4:
     Example_data2 = pd.read_csv("Storage example data.csv")
