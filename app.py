@@ -859,7 +859,6 @@ with tab4:
             figServices,
             use_container_width=True
         )
-
     with st.expander("Show Optimization Formulation"):
     
         formulation = r"""
@@ -927,6 +926,7 @@ with tab4:
             to meeting annual energy demand.
             """
         )
+
 
 with tab6:
 
@@ -1167,4 +1167,67 @@ with tab6:
         "Storage Saving",
         f"£{Storage_Saving:,.0f}"
     )
+
+    with st.expander("Show Optimization Formulation"):
+    
+        st.latex(
+            fr"""
+            \begin{{aligned}}
+            \min \quad &
+            \sum_t
+            \left(
+            30P_{{Thermal,t}}
+            +
+            0.03P_{{Thermal,t}}^2
+            \right)
+            \\
+            \text{{s.t.}} \quad &
+            P_{{Wind,t}}
+            +
+            P_{{Thermal,t}}
+            +
+            P_{{ES,t}}
+            =
+            D_t
+            \\
+            &
+            P_{{Wind,t}}
+            \le
+            W_t
+            \\
+            &
+            SOC_{{t+1}}
+            =
+            SOC_t
+            -
+            \frac{{P_{{ES,t}}}}
+            {{{ES_Power_Cap:.0f}\times{ES_Hours:.0f}}}
+            \\
+            &
+            0
+            \le
+            SOC_t
+            \le
+            1
+            \\
+            &
+            -{ES_Power_Cap:.0f}
+            \le
+            P_{{ES,t}}
+            \le
+            {ES_Power_Cap:.0f}
+            \ \text{{MW}}
+            \\
+            &
+            SOC_0 = SOC_f = 0.5
+            \end{{aligned}}
+            """
+        )
+    
+        st.markdown(
+            """
+            The battery can shift energy between periods but must end the
+            week with the same state of charge at which it started.
+            """
+        )
 
