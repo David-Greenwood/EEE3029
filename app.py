@@ -860,6 +860,74 @@ with tab4:
             use_container_width=True
         )
 
+    with st.expander("Show Optimization Formulation"):
+    
+        formulation = r"""
+        \begin{aligned}
+        \min \quad &
+        C_{Solar}
+        +
+        C_{Wind}
+        +
+        C_{Gas}
+        +
+        C_{Nuclear}
+        \\
+        \text{s.t.} \quad &
+        E_{Solar}
+        +
+        E_{Wind}
+        +
+        E_{Gas}
+        +
+        E_{Nuclear}
+        \ge
+        E_{Demand}
+        """
+    
+        if Adequacy:
+            formulation += fr"""
+            \\
+            &
+            \sum_i D_i C_i
+            \ge
+            {Peak:.0f}\ \text{{MW}}
+            """
+    
+        if In:
+            formulation += r"""
+            \\
+            &
+            \sum_i H_i C_i
+            \ge
+            750\ \text{GW.s}
+            """
+    
+        if NZ:
+            formulation += r"""
+            \\
+            &
+            \frac{\sum_i E_i \gamma_i}
+            {E_{Demand}}
+            \le
+            50\ \text{kgCO}_2/\text{MWh}
+            """
+    
+        formulation += r"""
+        \end{aligned}
+        """
+    
+        st.latex(formulation)
+    
+        st.markdown(
+            """
+            Technologies provide different services.
+            The selected constraints determine whether the optimizer must
+            provide adequacy, inertia and low-carbon generation in addition
+            to meeting annual energy demand.
+            """
+        )
+
 with tab6:
 
     Example_data = pd.read_csv("Storage example data.csv")
