@@ -894,6 +894,8 @@ with tab4:
             if Adequacy:
                 formulation += fr"""
                 \\
+                text{{Adequacy Constraint}}
+                \\
                 &
                 \sum_i D_i C_i
                 \ge
@@ -903,7 +905,9 @@ with tab4:
             if In:
                 formulation += r"""
                 \\
-                &
+                text{{Inertia Constraint}}
+                \\
+                                &
                 \sum_i H_i C_i
                 \ge
                 750\ \text{GW.s}
@@ -911,6 +915,8 @@ with tab4:
         
             if NZ:
                 formulation += r"""
+                \\
+                text{{Net-Zero Constraint}}
                 \\
                 &
                 \frac{\sum_i E_i \gamma_i}
