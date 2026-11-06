@@ -886,7 +886,7 @@ with tab4:
             \text{{For each technology, i:}}
             \\
             &
-            C_iLF_{min,i} leq E_i leq C_iCF_i
+            C_iLF_{min,i} \leq E_i \leq C_iCF_i
             """
 
             
