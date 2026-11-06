@@ -601,6 +601,58 @@ with tab4:
     use_container_width=True
     )
     #Tab 5 shows an system planning example
+
+    with st.expander("Show Optimization Formulation"):
+
+    formulation = fr"""
+    \begin{{aligned}}
+    \min \quad &
+    \sum_t \left(
+    30P_{{Gas,t}}
+    +0.1P_{{Gas,t}}^2
+    +50P_{{Bio,t}}
+    +0.1P_{{Bio,t}}^2
+    \right)
+    \\
+    \text{{s.t.}} \quad &
+    P_{{Wind,t}}
+    +
+    P_{{Gas,t}}
+    +
+    P_{{Bio,t}}
+    =
+    D_t
+    \\
+    &
+    P_{{Wind,t}}
+    \le
+    W_t
+    """
+
+    if MinTherm > 0:
+        formulation += fr"""
+        \\
+        &
+        P_{{Gas,t}}
+        +
+        P_{{Bio,t}}
+        \ge
+        {MinTherm:.0f}\ \text{{MW}}
+        """
+
+    formulation += r"""
+    \end{aligned}
+    """
+
+    st.latex(formulation)
+
+    st.markdown(
+        """
+        The optimization determines the least-cost dispatch while
+        respecting available VRE production and minimum thermal
+        generation requirements.
+        """
+    )
     with tab5:
 
         #Sliders to set the demand in terms of peak and overall demand
