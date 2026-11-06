@@ -882,7 +882,14 @@ with tab4:
             E_{Nuclear}
             \ge
             E_{Demand}
+            \\
+            \text{{For each technology, i:}}
+            \\
+            &
+            C_iLF_{min,i} leq E_i leq C_iCF_i
             """
+
+            
         
             if Adequacy:
                 formulation += fr"""
